@@ -5,7 +5,7 @@ import {Transport} from "@nestjs/microservices";
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    const queues = ['schedule_queue'];
+    const queues = ['schedule_queue', 'mail_queue'];
 
     for (const queue of queues) {
         app.connectMicroservice({
@@ -21,6 +21,5 @@ async function bootstrap() {
     }
 
     await app.startAllMicroservices();
-    await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap().then(() => console.log(`Server is running`));
