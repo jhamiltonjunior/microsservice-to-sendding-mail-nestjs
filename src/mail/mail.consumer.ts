@@ -6,7 +6,7 @@ import {NotificationDto} from "../notification/dto/notification.dto";
 import {EventPattern} from "@nestjs/microservices";
 
 @Controller()
-export class MailController {
+export class MailConsumer {
     constructor(private readonly mailService: MailService) {}
 
     @EventPattern('send_email')

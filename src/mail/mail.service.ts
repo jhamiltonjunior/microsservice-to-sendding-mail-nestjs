@@ -10,6 +10,7 @@ export class MailService {
         const { email, message } = notification;
 
         await this.mailerService.sendMail({
+            from: process.env.MAIL_FROM || '',
             to: `${email}`,
             subject: 'New Notification',
             text: message,
