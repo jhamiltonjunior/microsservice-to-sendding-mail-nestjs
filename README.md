@@ -76,23 +76,21 @@ pnpm run start:dev
 A aplicação irá se conectar automaticamente às filas schedule_queue e mail_queue do RabbitMQ.
 
 ### Estrutura do Projeto
-```
 src/
-  [app.controller.ts](http://_vscodecontentref_/0)
-  [app.module.ts](http://_vscodecontentref_/1)
-  [app.service.ts](http://_vscodecontentref_/2)
-  [main.ts](http://_vscodecontentref_/3)
+  [app.controller.ts]
+  [app.module.ts]
+  [app.service.ts]
+  [main.ts]
   mail/
-    [mail.consumer.ts](http://_vscodecontentref_/4)
-    [mail.module.ts](http://_vscodecontentref_/5)
-    [mail.service.ts](http://_vscodecontentref_/6)
+    [mail.consumer.ts]
+    [mail.module.ts]
+    [mail.service.ts]
   notification/
     dto/
-      [notification.dto.ts](http://_vscodecontentref_/7)
+      [notification.dto.ts]
   rabbitMQ/
-    [rabbitMQ.controller.ts](http://_vscodecontentref_/8)
-    [rabbitMQ.module.ts](http://_vscodecontentref_/9)
-```
+    [rabbitMQ.controller.ts]
+    [rabbitMQ.module.ts]
 
 
 Como funciona
