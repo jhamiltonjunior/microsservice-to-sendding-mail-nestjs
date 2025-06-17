@@ -1,98 +1,106 @@
+# API NestJS RabbitMQ
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Descrição
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Este projeto é uma API desenvolvida com o [NestJS](https://nestjs.com/), integrando mensageria com [RabbitMQ](https://www.rabbitmq.com/) e envio de e-mails via SMTP. O objetivo é fornecer uma base robusta para aplicações que necessitam de comunicação assíncrona e notificações por e-mail.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Tecnologias Utilizadas
 
-## Project setup
+- **[NestJS](https://nestjs.com/):** Framework Node.js para construção de aplicações escaláveis e eficientes.
+- **[RabbitMQ](https://www.rabbitmq.com/):** Broker de mensagens para comunicação assíncrona entre serviços.
+- **[@nestjs-modules/mailer](https://github.com/nest-modules/mailer):** Módulo para envio de e-mails.
+- **TypeScript:** Linguagem principal do projeto.
+- **Docker Compose:** Facilita a orquestração dos serviços (RabbitMQ, etc).
 
-```bash
-$ pnpm install
-```
+---
 
-## Compile and run the project
+## Funcionalidades
 
-```bash
-# development
-$ pnpm run start
+- **Mensageria:** Consome eventos do RabbitMQ, como `schedule_created` e `send_email`.
+- **Envio de E-mails:** Dispara notificações por e-mail utilizando SMTP.
+- **Estrutura Modular:** Separação clara entre módulos de mensageria, e-mail e notificações.
+- **Configuração via .env:** Variáveis de ambiente para fácil customização.
 
-# watch mode
-$ pnpm run start:dev
+---
 
-# production mode
-$ pnpm run start:prod
-```
+## Como executar o projeto
 
-## Run tests
+### 1. Pré-requisitos
+
+- [Node.js](https://nodejs.org/) (v16+)
+- [pnpm](https://pnpm.io/) ou [npm](https://www.npmjs.com/)
+- [Docker](https://www.docker.com/) (opcional, recomendado para RabbitMQ)
+
+### 2. Instalação das dependências
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+pnpm install
 ```
 
-## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### 3. Configuração do ambiente
+Crie um arquivo .env na raiz do projeto com as seguintes variáveis:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```env
+RABBITMQ_URL=amqp://localhost:5672
+MAIL_HOST=smtp.seuprovedor.com
+MAIL_PORT=587
+MAIL_USER=usuario
+MAIL_PASSWORD=senha
+MAIL_FROM=seu@email.com
+```
+
+### 4. Subindo o RabbitMQ com Docker
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+docker-compose up -d
+```
+Ou
+```bash
+make start
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 5. Executando a aplicação
+Modo desenvolvimento:
 
-## Resources
+```bash
+pnpm run start:dev
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+A aplicação irá se conectar automaticamente às filas schedule_queue e mail_queue do RabbitMQ.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Estrutura do Projeto
+```
+src/
+  [app.controller.ts](http://_vscodecontentref_/0)
+  [app.module.ts](http://_vscodecontentref_/1)
+  [app.service.ts](http://_vscodecontentref_/2)
+  [main.ts](http://_vscodecontentref_/3)
+  mail/
+    [mail.consumer.ts](http://_vscodecontentref_/4)
+    [mail.module.ts](http://_vscodecontentref_/5)
+    [mail.service.ts](http://_vscodecontentref_/6)
+  notification/
+    dto/
+      [notification.dto.ts](http://_vscodecontentref_/7)
+  rabbitMQ/
+    [rabbitMQ.controller.ts](http://_vscodecontentref_/8)
+    [rabbitMQ.module.ts](http://_vscodecontentref_/9)
+```
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Como funciona
+- Consumo de Mensagens:
+O rabbitMQController consome eventos da fila schedule_queue e processa os dados recebidos.
 
-## Stay in touch
+- Envio de E-mails:
+O MailConsumer escuta eventos send_email na fila mail_queue e utiliza o MailService para enviar e-mails.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- DTO de Notificação:
+O DTO NotificationDto define o formato das notificações enviadas por e-mail.
